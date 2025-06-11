@@ -1,0 +1,104 @@
+1. Introduction
+    1.1 - Purpose
+        This document outlines the software requirements for an Inventory Management System (IMS) designed for manufacturing plants. 
+        It will track raw materials, WIP, and finished goods, and integrate features typical of an MRP system such as BOM tracking and production scheduling.
+
+    1.2 - Scope
+        The IMS will provide real-time inventory tracking, order management, BOM management, and production planning. 
+        It will be accessible via a web interface and interact with a backend API and database.
+
+    1.3 - Definitions, Acronyms, and Abbreviations
+        IMS: Inventory Management System
+        MRP: Material Requirements Planning
+        BOM: Bill of Materials
+        WIP: Work In Progress
+        API: Application Programming Interface
+        SKU: Stock Keeping Unit
+
+2. Overall Description
+    2.1 Product Perspective
+        React frontend (SPA)
+        Flask backend (REST API)
+        PostgreSQL database
+        Optional integration with barcode scanners or IoT
+    
+    2.2 Product Functions
+        Track inventory across locations
+        BOM management and assembly planning
+        Supplier and purchase order management
+        Production scheduling and work order handling
+        Real-time dashboards and reports
+        
+    2.3 User Class and Characteristics
+        User Role:          Description:
+            Admin               Full access, user management
+            Warehouse Staff     Can scan, retrieve, and issue inventory
+            Production Lead     Can plan and monitor work orders
+            Procurement Team    Manages supplier data and PO's
+
+    2.4 Operating Environment
+        Web-based app (React)
+        Hosted on a Linux Server with Python and PostgreSQL or MySQL (TBD)
+        Investigate: Docker Based Deployment?
+
+3. System Features
+    3.1 Inventory Tracking
+        View/add/edit/delete SKU's
+        Multi-location stock levels (Might not be necessary if only used by smaller, local production facilities)
+        Track min/max/reorder levels
+
+    3.2 BOM Management
+        Create/edit/delete BOMs
+        Nested BOM support
+        Version Control
+
+    3.3 Production Planning
+        Work order creation
+        Material allocation
+        Capacity scheduling
+
+    3.4 Purchase Orders
+        Generate, approve, and track POs
+        Link POs to inventory recieved
+
+    3.5 Reports & Dashboards
+        Inventory turnover, lead times, stockouts
+        Visual graphs and tables
+        Ability to export these to a CSV or Excel format
+
+4. External Interface Requirements
+    4.1 User Interfaces
+        Web dashboard wqith tables, forms, and charts
+        Responsive layout for tablets in warehouses
+
+    4.2 Hardware Interfaces (Extreme Future Optional Goals)
+        Barcode Scanner Inputs
+        IoT (Internet of Things) Device APIs
+
+    4.3 Software Interfaces
+        RESTful API (JSON format)
+        PostgreSQL database
+        Optional: External ERP export (CSV/API)
+
+5. Non-Functional Requirements
+    5.1 Performance
+        TODO: Come up with adequate benchmarks
+            Concurrent User Limits
+            Response Times
+    
+    5.2 Security
+        User authentication and RBAC (Role-Based Access Control)
+        Data Encryption in Transit (HTTPS?)
+
+    5.3 Scalability
+        Modular Backend
+        Cloud-ready deployment
+
+    5.4 Maintainability
+        DOCUMENTATION FOR THE LOVE OF EVERYTHING GOOD AND HOLY
+        Well-documented Codebase
+        Modular Components
+            This applies to frontend, backend, everything
+        
+6
+
