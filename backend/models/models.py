@@ -40,16 +40,31 @@ class Product(db.Model):
 """
 class User:
     id : integer -> PK
-    access_level : Text
     username : string
     password : string
+    access_level : Text
 """
 
 class User(db.Model):
     id = db.Column(db.Integer(), primary_key = True)
-    access_level = db.Column(db.Text(), nullable = False)
     username = db.Column(db.String(25), nullable = False, unique = True)
     password = db.Column(db.Text(), nullable = False)
+    access_level = db.Column(db.Text(), nullable = False)
 
     def __repr__(self):
         return f"<User {self.username}>"
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(self, username, password, access_level):
+        self.username = username
+        self.password = password
+        self.access_level = access_level
+
+        db.session.commit()

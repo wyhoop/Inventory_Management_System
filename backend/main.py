@@ -1,10 +1,10 @@
 from config.config import DevConfig
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_restx import Api, Resource, fields
-from models.models import Product
+from models.models import Product, User
 from exts import db
 from flask_migrate import Migrate
-
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 app.config.from_object(DevConfig)
@@ -26,11 +26,50 @@ product_model = api.model(
     }
 )
 
+sign_up_model = api.model(
+    "SignUp",
+    {
+        "username" : fields.String(),
+        "password" : fields.String(),
+        "access_level" : fields.String()
+    }
+)
+
 @api.route("/hello")
 class HelloResource(Resource):
     def get(self):
         return {"message": "Hello World"}
     
+@api.route('/signup')
+class SignUp(Resource):
+    @api.expect(sign_up_model)
+    def post(self):
+        data = request.get_json()
+
+        username = data.get('username')
+
+        db_user = User.query.filter_by(username=username).first()
+
+        if db_user is not None:
+            return jsonify({"message" : "User with that username already exists!"}) # TODO: Maybe route this to login?
+
+        new_user = User(
+            username = data.get('username'),
+            password = generate_password_hash(data.get('password')),
+            access_level = data.get('access_level') # TODO: Consider changing this to 'role'?
+        )
+
+        new_user.save()
+
+        return jsonify({"message" : f"User, {username} succesfully created."})
+
+
+@api.route('/login')
+class Login(Resource):
+    def post(self):
+        pass
+    
+
 
 @api.route('/products')
 class ProductsResource(Resource):
@@ -43,6 +82,7 @@ class ProductsResource(Resource):
         return products
     
     @api.marshal_with(product_model)
+    @api.expect(product_model)
     def post(self):
         """Create a new product in inventory"""
 
